@@ -4,7 +4,7 @@
 
 - Condominio.Ammontare-complessivo: sommatoria di "quota anno corrente" di ogni appartamento appartenente al condominio
 - Proprietario.indirizzo: Indirizzo del condominio a cui appartiene l'appartamento in cui vive
-- Appartamento.è-affittato: Vero sse ci abita una Persona che non è proprietario altrimenti non possiede tale appartamento
+- Appartamento.è-affittato: Vero sse ci abita una Persona che non è proprietario di tale appartamento
 
 ## Vincoli di integrità
 
@@ -18,11 +18,14 @@
 | Operazione                                              | Frequenza                 |
 |---------------------------------------------------------|---------------------------|
 | Inserimento Proprietario                                | 2 volte/anno              |
-| Modifica Appartamento: quota anno corrente              | 1 volta/mese/appartamento |
-| Inserimento Spesa                                       | 2.5 volte/mese/condominio |
+| Modifica Appartamento: quota anno corrente              | 1 volta/mese              |
+| Inserimento Spesa                                       | 2.5 volte/mese            |
 | Modifica proprietario Appartamento (relazione possiede) | 2 volte/mese              |
-| Modifica residenza Persona (relazione abita)            | 0.06 volte/anno/persona   |
-|                                                         |                           |
+| Modifica residenza Persona (relazione abita)            | 0.06 volte/anno           |
+| Cancella Condominio                                     | 0.2 volte/anno            |
+| Query Proprietario.indirizzo                            | 1 volta/giorno            |
+| Query Appartamento.Quota-anno-corrente                  | 1 volta/settimana         |
+| Query Appartamento.è-affittato                          | 1.5 volte/giorno          |
 
 # Note
 
