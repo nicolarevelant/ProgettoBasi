@@ -47,3 +47,4 @@
 # Note
 
 - Rimozione età persona
+- Modifica delle frequenze della Tabella delle operazioni (tenendo conto della frequenza totale)
