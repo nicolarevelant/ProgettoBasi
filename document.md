@@ -16,7 +16,8 @@
 | Operazione                                              | Frequenza                 |
 |---------------------------------------------------------|---------------------------|
 | Inserimento Proprietario                                | 2 volte/anno              |
-| Modifica Appartamento.Quota-anno-corrente               | 1 volta/mese              |
+| Modifica Appartamento.Quota-anno-corrente               | 45 volte/mese             |
+| Query calcola ammontare complessivo di un condominio    | 4 volte/anno              |
 | Inserimento Spesa                                       | 2.5 volte/mese            |
 | Modifica proprietario Appartamento (relazione possiede) | 2 volte/mese              |
 | Modifica residenza Persona (relazione abita)            | 0.06 volte/anno           |
