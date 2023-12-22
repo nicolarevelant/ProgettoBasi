@@ -38,7 +38,25 @@
 
 ## Analisi ridondanze
 
+## Schema logico
 
+Il seguente schema è solo una bozza, è da decidere se rimuovere o meno l'entita Proprietario!!
+
+> condominio(**codice**, indirizzo, contoCorrente, indirizzo, ammontareComplessivo)
+>
+> spesa(**dataOra,** ***condominio***, importo, causale)
+>
+> appartamento(**numero,** ***condominio***, quotaAnnoCorrente, sommaPagata, telefono, superficie, *proprietario*)
+>
+> persona(**cf**, nome, dataNascita, *condominio, numeroAppartamento*)
+
+> spesa.condominio --\> condominio.codice
+>
+> appartamento.condominio --\> condominio.codice
+>
+> appartamento.proprietario --\> persona.cf
+>
+> \{persona.condominio, persona.numeroAppartamento\} --\> \{appartamento.condominio, appartamento.numero}
 
 # Note
 
