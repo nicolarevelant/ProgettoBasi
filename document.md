@@ -17,15 +17,10 @@
 |---------------------------------------------------------|---------------------------|
 | Inserimento Proprietario                                | 2 volte/anno              |
 | Modifica Appartamento.Quota-anno-corrente               | 45 volte/mese             |
-| Query calcola ammontare complessivo di un condominio    | 4 volte/anno              |
-| Inserimento Spesa                                       | 2.5 volte/mese            |
-| Modifica proprietario Appartamento (relazione possiede) | 2 volte/mese              |
-| Modifica residenza Persona (relazione abita)            | 0.06 volte/anno           |
+| Query Condominio.Ammontare-complessivo (calcolarlo)     | 4 volte/anno              |
 | Cancella Condominio                                     | 0.2 volte/anno            |
 | Query Proprietario.indirizzo                            | 1 volta/giorno            |
-| Query Appartamento.Quota-anno-corrente                  | 1 volta/settimana         |
-| Query Appartamento.è-affittato                          | 1.5 volte/giorno          |
-| Query Condominio.Ammontare-complessivo                  | 2 volte/mese              |
+| Query dato x proprietario per ogni condominio avente almeno 1 app. posseduto da x, elencare le ultime 5 spese dal registro spese | 2 volte/mese |
 
 ## Tabella valori
 
