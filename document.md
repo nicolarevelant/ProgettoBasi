@@ -40,7 +40,11 @@
 
 ## Schema logico
 
-Il seguente schema è solo una bozza, è da decidere se rimuovere o meno l'entita Proprietario!!
+L'attributo condominio.ammontareComplessivo è un attributo derivato ma è comunque presente nello schema logico
+in quanto lo studio sulla ridondanza ha sottolineato che manatenerlo porta una maggiore efficienza computazionale.
+
+Nello schema ER l'entità Proprietario è una specializzazione totale dell'entità Persona.
+Dato che l'entità Persona non ha altre specializzazioni, le 2 entità vengolo collise in 1 sola tabella (persona)
 
 > condominio(**codice**, indirizzo, contoCorrente, indirizzo, ammontareComplessivo)
 >
@@ -48,15 +52,19 @@ Il seguente schema è solo una bozza, è da decidere se rimuovere o meno l'entit
 >
 > appartamento(**numero,** ***condominio***, quotaAnnoCorrente, sommaPagata, telefono, superficie, *proprietario*)
 >
-> persona(**cf**, nome, dataNascita, *condominio, numeroAppartamento*)
+> persona(**cf**, nome, dataNascita, *numeroAppartamento, condominio*)
 
-> spesa.condominio --\> condominio.codice
+### Chiavi esterne
+
+Di seguito sono elencate le chiavi esterne, la freccia indica che l'attributo a sinistra è chiave esterna dell'entità a destra
+
+> spesa.condominio --\> condominio
 >
-> appartamento.condominio --\> condominio.codice
+> appartamento.condominio --\> condominio
 >
-> appartamento.proprietario --\> persona.cf
+> appartamento.proprietario --\> persona
 >
-> \{persona.condominio, persona.numeroAppartamento\} --\> \{appartamento.condominio, appartamento.numero}
+> \{persona.numeroAppartamento, persona.condominio\} --\> appartamento
 
 # Note
 
