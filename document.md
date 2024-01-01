@@ -40,11 +40,17 @@
 
 ## Schema logico
 
+Dopo aver completato lo schema concettuale è necessario tradurlo in uno schema logico
+direttamente implementabile in un linguaggio di interrogazione come l'SQL, in quanto
+ogni tabella dello schema logico corrisponde ad una tabella memorizzata nella base di dati.
+
 L'attributo condominio.ammontareComplessivo è un attributo derivato ma è comunque presente nello schema logico
-in quanto lo studio sulla ridondanza ha sottolineato che manatenerlo porta una maggiore efficienza computazionale.
+in quanto lo studio sulla ridondanza ha sottolineato che mantenerlo porta una maggiore efficienza computazionale della basi di dati.
 
 Nello schema ER l'entità Proprietario è una specializzazione totale dell'entità Persona.
-Dato che l'entità Persona non ha altre specializzazioni, le 2 entità vengolo collise in 1 sola tabella (persona)
+Dato che l'entità Persona non ha altre specializzazioni, le 2 entità vengolo collise in 1 sola tabella: **persona**
+
+Ognuna delle restanti relazioni dello schema ER è stata tradotta in 1 tabella con lo stesso nome.
 
 > condominio(**codice**, indirizzo, contoCorrente, indirizzo, ammontareComplessivo)
 >
@@ -56,7 +62,8 @@ Dato che l'entità Persona non ha altre specializzazioni, le 2 entità vengolo c
 
 ### Chiavi esterne
 
-Di seguito sono elencate le chiavi esterne, la freccia indica che l'attributo a sinistra è chiave esterna dell'entità a destra
+Di seguito sono elencate le chiavi esterne, la freccia indica che l'attributo (o l'insieme di attributi)
+a sinistra è chiave esterna dell'entità a destra
 
 > spesa.condominio --\> condominio
 >
