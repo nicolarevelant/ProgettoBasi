@@ -1,0 +1,207 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+%
+\documentclass[
+]{article}
+\usepackage{amsmath,amssymb}
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math} % this also loads fontspec
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+\usepackage{lmodern}
+\ifPDFTeX\else
+  % xetex/luatex font selection
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{xcolor}
+\usepackage{longtable,booktabs,array}
+\usepackage{calc} % for calculating minipage widths
+% Correct order of tables after \paragraph or \subparagraph
+\usepackage{etoolbox}
+\makeatletter
+\patchcmd\longtable{\par}{\if@noskipsec\mbox{}\fi\par}{}{}
+\makeatother
+% Allow footnotes in longtable head/foot
+\IfFileExists{footnotehyper.sty}{\usepackage{footnotehyper}}{\usepackage{footnote}}
+\makesavenoteenv{longtable}
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+\ifLuaTeX
+  \usepackage{selnolig}  % disable illegal ligatures
+\fi
+\IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\urlstyle{same}
+\hypersetup{
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+
+\author{}
+\date{}
+
+\begin{document}
+
+\hypertarget{progetto-basi}{%
+\section{Progetto Basi}\label{progetto-basi}}
+
+\hypertarget{descrizione-attributi-derivati}{%
+\subsection{Descrizione attributi
+derivati}\label{descrizione-attributi-derivati}}
+
+\begin{itemize}
+\tightlist
+\item
+  Condominio.Ammontare-complessivo: sommatoria di ``quota anno
+  corrente'' di ogni appartamento appartenente al condominio
+\item
+  Proprietario.indirizzo: Indirizzo del condominio a cui appartiene
+  l'appartamento in cui vive
+\item
+  Appartamento.è-affittato: Vero sse ci abita una Persona che non è
+  proprietario di tale appartamento
+\end{itemize}
+
+\hypertarget{vincoli-di-integrituxe0}{%
+\subsection{Vincoli di integrità}\label{vincoli-di-integrituxe0}}
+
+\begin{itemize}
+\tightlist
+\item
+  Proprietario.indirizzo: NULL sse il proprietario abita in un
+  appartamento che possiede
+\item
+  Ogni proprietario abita in un appartamento che possiede oppure paga
+  l'affitto per abitare in un altro appartamento come inquilino
+\end{itemize}
+
+\hypertarget{tabella-operazioni}{%
+\subsubsection{Tabella operazioni}\label{tabella-operazioni}}
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 2\tabcolsep) * \real{0.6786}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 2\tabcolsep) * \real{0.3214}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+Operazione
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Frequenza
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+Inserimento Proprietario & 2 volte/anno \\
+Modifica Appartamento.Quota-anno-corrente & 45 volte/mese \\
+Query Condominio.Ammontare-complessivo (calcolarlo) & 4 volte/anno \\
+Cancella Condominio & 0.2 volte/anno \\
+Query Proprietario.indirizzo & 1 volta/giorno \\
+Query dato x proprietario per ogni condominio avente almeno 1 app.
+posseduto da x, elencare le ultime 5 spese dal registro spese & 2
+volte/mese \\
+\end{longtable}
+
+\hypertarget{tabella-valori}{%
+\subsection{Tabella valori}\label{tabella-valori}}
+
+\begin{longtable}[]{@{}lll@{}}
+\toprule\noalign{}
+Concetto & Tipo & Volume \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+Persona & Entità & 1000 \\
+Proprietario & Entità & 200 \\
+Appartamento & Entità & 1500 \\
+Condominio & Entità & 150 \\
+Spesa & Entità & 4500 \\
+abita & Relazione & 1000 \\
+possiede & Relazione & 1500 \\
+appartenenza & Relazione & 1500 \\
+paga & Relazione & 4500 \\
+\end{longtable}
+
+\hypertarget{analisi-ridondanze}{%
+\subsection{Analisi ridondanze}\label{analisi-ridondanze}}
+
+\hypertarget{schema-logico}{%
+\subsection{Schema logico}\label{schema-logico}}
+
+L'attributo condominio.ammontareComplessivo è un attributo derivato ma è
+comunque presente nello schema logico in quanto lo studio sulla
+ridondanza ha sottolineato che manatenerlo porta una maggiore efficienza
+computazionale.
+
+Nello schema ER l'entità Proprietario è una specializzazione totale
+dell'entità Persona. Dato che l'entità Persona non ha altre
+specializzazioni, le 2 entità vengolo collise in 1 sola tabella
+(persona)
+
+\begin{quote}
+condominio(\textbf{codice}, indirizzo, contoCorrente, indirizzo,
+ammontareComplessivo)
+
+spesa(\textbf{dataOra,} \textbf{\emph{condominio}}, importo, causale)
+
+appartamento(\textbf{numero,} \textbf{\emph{condominio}},
+quotaAnnoCorrente, sommaPagata, telefono, superficie,
+\emph{proprietario})
+
+persona(\textbf{cf}, nome, dataNascita, \emph{numeroAppartamento,
+condominio})
+\end{quote}
+
+\hypertarget{chiavi-esterne}{%
+\subsubsection{Chiavi esterne}\label{chiavi-esterne}}
+
+Di seguito sono elencate le chiavi esterne, la freccia indica che
+l'attributo a sinistra è chiave esterna dell'entità a destra
+
+\begin{quote}
+spesa.condominio --\textgreater{} condominio
+
+appartamento.condominio --\textgreater{} condominio
+
+appartamento.proprietario --\textgreater{} persona
+
+\{persona.numeroAppartamento, persona.condominio\} --\textgreater{}
+appartamento
+\end{quote}
+
+\hypertarget{note}{%
+\section{Note}\label{note}}
+
+\begin{itemize}
+\tightlist
+\item
+  Rimozione età persona
+\item
+  Modifica delle frequenze della Tabella delle operazioni (tenendo conto
+  della frequenza totale)
+\end{itemize}
+
+\end{document}
