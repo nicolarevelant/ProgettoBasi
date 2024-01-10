@@ -17,10 +17,14 @@
 |---------------------------------------------------------|---------------------------|
 | Inserimento Proprietario                                | 2 volte/anno              |
 | Modifica Appartamento.Quota-anno-corrente               | 45 volte/mese             |
-| Query Condominio.Ammontare-complessivo (calcolarlo)     | 4 volte/anno              |
 | Cancella Condominio                                     | 0.2 volte/anno            |
+| Query Condominio.Ammontare-complessivo (calcolarlo)     | 4 volte/anno              |
 | Query Proprietario.indirizzo                            | 1 volta/giorno            |
 | Query dato x proprietario per ogni condominio avente almeno 1 app. posseduto da x, elencare le ultime 5 spese dal registro spese | 2 volte/mese |
+| Query elenco spese dell'anno corrente dei condomini che possiedono almeno 10 appartamenti | 1 volta/anno |
+| Query importo complessivo delle spese di tutti i condomini con **ammontareComplessivo** tra 50 e 100 compresi | 5 volte/anno |
+| Query elenco persone che possiedono l'appartamento in cui abitano | 3 volte/anno |
+| Query elenco persone più anziane che possiedono un appartamento di superficie >= 50 | 2 volte/mese |
 
 ## Tabella valori
 
@@ -73,7 +77,6 @@ a sinistra è chiave esterna dell'entità a destra
 >
 > \{persona.numeroAppartamento, persona.condominio\} --\> appartamento
 
-# Note
+# TODO
 
-- Rimozione età persona
-- Modifica delle frequenze della Tabella delle operazioni (tenendo conto della frequenza totale)
+- Rimozione età persona (foto ER.png)
