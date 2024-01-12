@@ -56,13 +56,13 @@ Dato che l'entità Persona non ha altre specializzazioni, le 2 entità vengolo c
 
 Ognuna delle restanti relazioni dello schema ER è stata tradotta in 1 tabella con lo stesso nome.
 
-> condominio(**codice**, indirizzo, contoCorrente, indirizzo, ammontareComplessivo)
+> condominio(**codice**, contoCorrente, indirizzo, ammontareComplessivo)
 >
 > spesa(**dataOra,** ***condominio***, importo, causale)
 >
 > appartamento(**numero,** ***condominio***, quotaAnnoCorrente, sommaPagata, telefono, superficie, *proprietario*)
 >
-> persona(**cf**, nome, dataNascita, *numeroAppartamento, condominio*)
+> persona(**cf**, nome, dataNascita, indirizzo, *numeroAppartamento, condominio*)
 
 ### Chiavi esterne
 
