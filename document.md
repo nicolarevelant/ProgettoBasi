@@ -18,6 +18,7 @@
 | Inserimento Proprietario                                | 2 volte/anno              |
 | Modifica Appartamento.Quota-anno-corrente               | 45 volte/mese             |
 | Cancella Condominio                                     | 0.2 volte/anno            |
+| Inserimento Appartamento                                | 1 volta/anno              |
 | Query Condominio.Ammontare-complessivo (calcolarlo)     | 4 volte/anno              |
 | Query Proprietario.indirizzo                            | 1 volta/giorno            |
 | Query dato x proprietario per ogni condominio avente almeno 1 app. posseduto da x, elencare le ultime 5 spese dal registro spese | 2 volte/mese |
@@ -41,6 +42,59 @@
 | paga         | Relazione | 4500   |
 
 ## Analisi ridondanze
+
+L'analisi delle ridondanze è stata effettuata tenendo in considerazione l'attributo derivato Ammontare-Complessivo dell'entità Condominio, andando a calcolare il costo delle seguenti due operazioni nel caso in cui è presente l'attributo derivato oppure no:
+> OP1 := inserimento Appartamento
+> 
+> OP2 := calcolare ammontare complessivo di un Condominio
+
+Con frequenza rispettivamente di 1 volta/anno e 4 volte/anno
+
+La seguente tabella ci sarà utile in seguito per calcolare il costo delle operazioni.
+| Operazione    | Costo (u) |
+|---------------|-----------|
+| Scrittura (w) | 2         |
+| Lettura (r)   | 1         |
+
+L'obbiettivo che ci poniamo è quello di dimostrare che tenere l'attributo derivato sia computazionalmente vantaggioso, nel caso delle due operazioni in esame. Focalizziamo la nostra attenzione sulle entità **Condominio** e **Appartamento** e sulla relazione **Appartenenza**.
+
+***Costo delle due operazione nel caso in cui la ridondanza venga tolta***
+Per quanto riguarda l'operazione 1 abbiamo bisogno di un accesso in scrittura all'entità Appartamento e un accesso in scrittura alla relazione Appartenenza.
+
+Per quanto riguarda l'operazione 2 serve un accesso in lettura all'entità Condominio, per ricavare il condominio in questione e 10 letture alla relazione Appartenenza (ottenuto dividendo il volume dell'entità Appartamento per il volume dell'entità Condominio).
+
+Quindi,
+
+> Costo_OP1 = 2w
+> 
+> Costo_OP2 = 1r + (1500/150)r = 11r
+Andando a moltiplicare i costi per le relative frequenze delle due operazioni e tenendo in considerazione la tabella subito sopra
+> Costo_OP1 = 2 * 2 * 1 volta/anno = 4 accessi all'anno
+> 
+> Costo_OP2 = 11 * 1 * 4 volte/anno = 44 accessi all'anno
+>
+> Costo_TOT_senza_rid = 48 accessi all'anno
+
+***Costo delle due operazione nel caso in cui la ridondanza venga mantenuta***
+
+Per quanto riguarda l'operazione 1 abbiamo bisogno di un accesso in scrittura all'entità Appartamento (per inserire l'appartamento), un accesso in scrittura alla relazione Appartenenza (per memorizzare la coppia condominio-appartamento), un accesso in lettura all'entità Condominio (per cercare il condominio in questione) e un accesso in scrittura all'entità Condominio (sommando all'attributo derivato il valore dell'attributo Quota-anno-corrente dell'appartamento appena inserito).
+
+Per quanto riguarda l'operazione 2 serve un solo accesso in lettura all'entità Condominio, per leggere il contenuto dell'attributo derivato Ammontare-complessivo.
+
+Quindi,
+
+> Costo_OP1 = 1r + 3w
+> 
+> Costo_OP2 = 1r 
+Andando a moltiplicare i costi per le relative frequenze delle due operazioni e tenendo in considerazione la tabella subito sopra
+> Costo_OP1 = 1 + (3 * 2) * 1 volta/anno = 7 accessi all'anno
+> 
+> Costo_OP2 = 1 * 4 volte/anno = 4 accessi all'anno
+>
+> Costo_TOT_con_rid = 11 accessi all'anno
+
+
+E quindi siccome Costo_TOT_con_rid < Costo_TOT_senza_rid allora conviene mantenere l'attributo derivato Ammontare-complessivo.
 
 ## Schema logico
 
