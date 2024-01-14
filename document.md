@@ -59,6 +59,7 @@ La seguente tabella ci sarà utile in seguito per calcolare il costo delle opera
 L'obbiettivo che ci poniamo è quello di dimostrare che tenere l'attributo derivato sia computazionalmente vantaggioso, nel caso delle due operazioni in esame. Focalizziamo la nostra attenzione sulle entità **Condominio** e **Appartamento** e sulla relazione **Appartenenza**.
 
 ***Costo delle due operazione nel caso in cui la ridondanza venga tolta***
+
 Per quanto riguarda l'operazione 1 abbiamo bisogno di un accesso in scrittura all'entità Appartamento e un accesso in scrittura alla relazione Appartenenza.
 
 Per quanto riguarda l'operazione 2 serve un accesso in lettura all'entità Condominio, per ricavare il condominio in questione e 10 letture alla relazione Appartenenza (ottenuto dividendo il volume dell'entità Appartamento per il volume dell'entità Condominio).
@@ -68,7 +69,9 @@ Quindi,
 > Costo_OP1 = 2w
 > 
 > Costo_OP2 = 1r + (1500/150)r = 11r
+
 Andando a moltiplicare i costi per le relative frequenze delle due operazioni e tenendo in considerazione la tabella subito sopra
+
 > Costo_OP1 = 2 * 2 * 1 volta/anno = 4 accessi all'anno
 > 
 > Costo_OP2 = 11 * 1 * 4 volte/anno = 44 accessi all'anno
@@ -85,14 +88,15 @@ Quindi,
 
 > Costo_OP1 = 1r + 3w
 > 
-> Costo_OP2 = 1r 
+> Costo_OP2 = 1r
+
 Andando a moltiplicare i costi per le relative frequenze delle due operazioni e tenendo in considerazione la tabella subito sopra
+
 > Costo_OP1 = 1 + (3 * 2) * 1 volta/anno = 7 accessi all'anno
 > 
 > Costo_OP2 = 1 * 4 volte/anno = 4 accessi all'anno
 >
 > Costo_TOT_con_rid = 11 accessi all'anno
-
 
 E quindi siccome Costo_TOT_con_rid < Costo_TOT_senza_rid allora conviene mantenere l'attributo derivato Ammontare-complessivo.
 
