@@ -1,5 +1,20 @@
 # Progetto Basi
 
+# TODO
+
+- create table, constraint, trigger, index
+- query semplici
+- query difficili
+- script in R per popolamento database (
+- creare template Latex
+- completare relazione finale
+
+# Smistamento lavoro
+
+Ion: create table, constraint, trigger, index + query semplici
+Revelant: prime 2 query + template LaTeX
+Tridente: ultime 3 query
+
 ## Descrizione attributi derivati
 
 - Condominio.Ammontare-complessivo: sommatoria di "quota anno corrente" di ogni appartamento appartenente al condominio
@@ -15,7 +30,6 @@
 
 | Operazione                                              | Frequenza                 |
 |---------------------------------------------------------|---------------------------|
-| Inserimento Proprietario                                | 2 volte/anno              |
 | Modifica Appartamento.Quota-anno-corrente               | 45 volte/mese             |
 | Cancella Condominio                                     | 0.2 volte/anno            |
 | Inserimento Appartamento                                | 1 volta/anno              |
@@ -120,7 +134,7 @@ Ognuna delle restanti relazioni dello schema ER è stata tradotta in 1 tabella c
 >
 > appartamento(**numero,** ***condominio***, quotaAnnoCorrente, sommaPagata, telefono, superficie, *proprietario*)
 >
-> persona(**cf**, nome, dataNascita, indirizzo, *numeroAppartamento, condominio*)
+> persona(_cf__, nome, dataNascita, indirizzo, *numeroAppartamento, condominio*)
 
 ### Chiavi esterne
 
@@ -135,6 +149,21 @@ a sinistra è chiave esterna dell'entità a destra
 >
 > \{persona.numeroAppartamento, persona.condominio\} --\> appartamento
 
-# TODO
+# SQL
 
-- Rimozione età persona (foto ER.png)
+# Progettazione fisica
+
+> CREATE DATABASE dbProgetto
+\
+TODO: create table, constraint, trigger, index
+
+## Query
+
+#TODO: conversione query tabella operazioni
+TODO: script in R per popolamento database
+
+# Grafici
+
+TODO: R plot()
+
+
