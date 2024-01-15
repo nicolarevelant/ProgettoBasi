@@ -11,9 +11,9 @@
 
 # Smistamento lavoro
 
-Ion: create table, constraint, trigger, index + query semplici
-Revelant: prime 2 query + template LaTeX
-Tridente: ultime 3 query
+- Ion: create table, constraint, trigger, index + query semplici
+- Revelant: prime 2 query + template LaTeX
+- Tridente: ultime 3 query
 
 ## Descrizione attributi derivati
 
