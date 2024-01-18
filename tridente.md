@@ -3,7 +3,7 @@
 
 ```
 SELECT SUM(importo)
-FROM   condominio C JOIN spesa S ON C.codice = S.condominio
+FROM   (condominio C JOIN spesa S ON C.codice = S.condominio)
 WHERE  ammontareComplessivo BETWEEN 50 AND 100;
 ```
 
@@ -25,8 +25,8 @@ WHERE  EXISTS  (SELECT *
 #### Modo 2
 
 ```
-SELECT CF
-FROM   persona P JOIN appartamento A ON P.cf = A.proprietario
+SELECT cf
+FROM   (persona P JOIN appartamento A ON P.cf = A.proprietario)
 WHERE  P.numeroAppartamento = A.numero AND P.condominio = A.condominio;
 ```
 
@@ -34,4 +34,8 @@ WHERE  P.numeroAppartamento = A.numero AND P.condominio = A.condominio;
 ### Query elenco persone più anziane che possiedono un appartamento di superficie >= 50
 
 ```
+SELECT cf
+FROM   (persona P JOIN appartamento A ON P.cf = A.proprietario)
+WHERE  superficie >= 50 AND dataNascita = (SELECT MIN(P2.dataNascita)
+                                           FROM   persona P2);
 ```
