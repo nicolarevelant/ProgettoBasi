@@ -10,14 +10,24 @@ WHERE  ammontareComplessivo BETWEEN 50 AND 100;
 # 4
 ### Query elenco persone che possiedono l'appartamento in cui abitano
 
+#### Modo 1
+
 ```
 SELECT cf
 FROM   persona P
-WHERE  EXISTS  (SELECT \*
+WHERE  EXISTS  (SELECT *
                 FROM   appartamento
                 WHERE  P.numeroAppartamento = numero AND
                        P.condominio = condominio AND
                        P.cf = proprietario);
+```
+
+#### Modo 2
+
+```
+SELECT CF
+FROM   persona P JOIN appartamento A ON P.cf = A.proprietario
+WHERE  P.numeroAppartamento = A.numero AND P.condominio = A.condominio;
 ```
 
 # 5
