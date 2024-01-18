@@ -2,19 +2,21 @@
 
 \subsection{Tabella operazioni}
 
-\begin{tabular}{|p{260pt}|l|}
+% TODO: scegliere codici condominiali
+
+\begin{tabular}{|p{300pt}|l|}
 	\hline
-	Operazione & Frequenza \\ \hline
-	Modifica Appartamento.Quota-anno-corrente & 45 volte/mese \\ \hline
-	Cancella Condominio & 0.2 volte/anno \\ \hline
+	\textbf{Operazione} & \textbf{Frequenza} \\ \hline
+	Modifica la quota dell'anno corrente dell'appartamento n° 3 del condominio "X" & 45 volte/mese \\ \hline
+	Cancella condominio con codice "Y" & 0.2 volte/anno \\ \hline
 	Inserimento Appartamento & 1 volta/anno \\ \hline
-	Query Condominio.Ammontare-complessivo (calcolarlo) & 4 volte/anno \\ \hline
-	Query Proprietario.indirizzo & 1 volta/giorno \\ \hline
+	Query ammontare complessivo di tutti i condomini (calcolarlo) & 4 volte/anno \\ \hline
+	Query indirizzo di tutti i proprietari & 1 volta/giorno \\ \hline
 	Query dato x proprietario per ogni condominio avente almeno 1 app. posseduto da x, elencare le ultime 5 spese dal registro spese & 2 volte/mese \\ \hline
 	Query elenco spese dell'anno corrente dei condomini che possiedono almeno 10 appartamenti & 1 volta/anno \\ \hline
-	Query importo complessivo delle spese di tutti i condomini con **ammontareComplessivo** tra 50 e 100 compresi & 5 volte/anno \\ \hline
+	Query importo complessivo delle spese di tutti i condomini con $50 <= ammontareComplessivo <= 100$ & 5 volte/anno \\ \hline
 	Query elenco persone che possiedono l'appartamento in cui abitano & 3 volte/anno \\ \hline
-	Query elenco persone più anziane che possiedono un appartamento di superficie >= 50 & 2 volte/mese \\ \hline
+	Query elenco persone più anziane che possiedono un appartamento con $superficie >= 50$ & 2 volte/mese \\ \hline
 \end{tabular}
 
 \subsection{Tabella valori}
@@ -37,13 +39,16 @@
 
 L'analisi delle ridondanze è stata effettuata tenendo in considerazione l'attributo derivato Ammontare-Complessivo dell'entità Condominio, andando a calcolare il costo delle seguenti due operazioni nel caso in cui è presente l'attributo derivato oppure no:
 
-\begin{verbatim}
+\begin{samepage}
+	
+\begin{itemize}
+	
+	\item OP1 := inserimento Appartamento
+	\item OP2 := calcolare ammontare complessivo di un Condominio
 
-> OP1 := inserimento Appartamento
-> 
-> OP2 := calcolare ammontare complessivo di un Condominio
+\end{itemize}
 
-\end{verbatim}
+\end{samepage}
 
 Con frequenza rispettivamente di 1 volta/anno e 4 volte/anno
 
