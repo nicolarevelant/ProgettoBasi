@@ -4,16 +4,14 @@
 
 - create table, constraint, trigger, index
 - query semplici
-- query difficili
-- script in R per popolamento database (
-- creare template Latex
-- completare relazione finale
+- script in R per popolamento database
+- completare relazione finale: introduzione, descrizione soluzione, schema ER, progettazione fisica/implementazione SQL
 
 # Smistamento lavoro
 
 - Ion: create table, constraint, trigger, index + query semplici
-- Revelant: prime 2 query + template LaTeX
-- Tridente: ultime 3 query
+- Revelant: introduzione, descrizione soluzione
+- Tridente: schema ER, progettazione fisica/implemSQL
 
 ## Descrizione attributi derivati
 
