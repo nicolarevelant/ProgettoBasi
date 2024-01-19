@@ -1,0 +1,24 @@
+\section{Schema entità/relazioni (ER)}
+
+Lo schema ER usato per risolvere il problema posto è il seguente:
+
+% TODO: inserire immagine ER.png
+
+Lo schema è composto da 5 entità e da 4 relazioni.
+
+\subsection{Le entità}
+
+\begin{itemize}
+    \item Condominio: rappresenta un intero condominio, ed è identificato dal suo codice, e caratterizzato indirizzo, CC, 
+                      e l'ammontare complessivo, cioè la somma delle quote già pagate di ogni appartamento di quel condominio.
+    \item Spesa: rappresenta la spesa che ogni condominio deve pagare, caratterizzato da importo e causale.
+                 È un entità debole di condominio, identificato anche da data e ora.
+    \item Appartamento: rappresenta un appartamento di un particoare condominio, è un'entità debole di Condominio, identificato anche da numero.
+                        Inoltre, è caratterizzato dall'attributo opzionale telefono, dalla superficie dell'appartamento, 
+                        dalla quota dell'anno corrente, la somma che ha già pagato per quell'anno, e da è affittato, un valore booleano
+                        che dà vero se nell'appartamento ci abita una persona che non è proprietario di quell'appartamento, e falso altrimenti.
+    \item Persona: rappresenta una persona, ed è identificato da CF, e caratterizzato dal suo nome e data di nascita.
+    \item Proprietario: è la specializzazione parziale di persona, e quindi mantiene gli attributi di quest'ultimo,
+                        con in aggiunta l'attributo indirizzo, derivato e opzionale, che se presente,
+                        indica l'indirizzo del condominio a cui appartiene l'appartamento in cui vive.                        
+\end{itemize}
