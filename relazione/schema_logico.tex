@@ -1,0 +1,47 @@
+\section{Schema logico relazionale}
+
+Lo schema logico permette di rappresentare i concetti derivanti dallo schema ER
+nel modello logico utilizzato dalla base di dati.
+
+In questo progetto viene utilizzato il modello relazionale il quale utilizza le relazioni
+(o tabelle) e le associazioni fra di esse per rappresentare i dati richiesti dal modello
+concettuale.
+
+Il seguente schema logico ha tradotto le entità dello schema ER in tabelle, e le relazioni
+di tipo 1 a N dall'entità A all'entità B in associazioni tra la chiave esterna di A che
+fa riferimento alla chiave primaria di B.
+
+In questo schema ER è presente una singola specializzazione parziale di Persona in
+Proprietario pertanto viene unita al genitore, e tutti gli attributi e relazioni del figlio
+ora sono sono del genitore.
+
+L'attributo condominio.ammontareComplessivo è un attributo derivato ma è comunque presente
+nello schema logico in quanto lo studio sulla ridondanza ha sottolineato che mantenerlo porta
+una maggiore efficienza computazionale della basi di dati.
+
+\begin{itemize}
+
+\item condominio(\underline{codice}, contoCorrente, indirizzo, ammontareComplessivo)
+
+\item spesa(\underline{dataOra, \textit{condominio}}, importo, causale)
+
+\item appartamento(\underline{numero, \textit{condominio}}, quotaAnnoCorrente, sommaPagata, telefono, superficie, \textit{proprietario})
+
+\item persona(\underline{cf}, nome, dataNascita, indirizzo, \textit{numeroAppartamento, condominio})
+
+\end{itemize}
+
+\subsection{Chiavi esterne}
+
+Di seguito sono elencate le chiavi esterne, la freccia indica che l'attributo (o l'insieme di attributi)
+a sinistra è chiave esterna dell'entità a destra
+
+% TODO: usare o no le parentesi graffe
+
+\begin{itemize}
+	\item spesa.condominio $\implies$ condominio
+	\item appartamento.condominio $\implies$ condominio
+	\item appartamento.proprietario $\implies$ persona
+	\item $\{$persona.numeroAppartamento, persona.condominio$\}$ $\implies$ appartamento
+\end{itemize}
+
