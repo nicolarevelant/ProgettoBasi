@@ -1,9 +1,10 @@
 \documentclass[11pt]{article}
 \usepackage[a4paper, total={6in, 8in}]{geometry}
+\usepackage{amsmath}  % for \hookrightarrow
 \usepackage{graphicx}
 \usepackage{listings}
 \usepackage{lmodern}  % for bold teletype font
-\usepackage{amsmath}  % for \hookrightarrow
+\usepackage{hyperref}
 \usepackage{xcolor}   % for \textcolor
 
 \lstset{
@@ -12,6 +13,10 @@
 	frame=single,
 	breaklines=true,
 	postbreak=\mbox{\textcolor{red}{$\hookrightarrow$}\space},
+}
+
+\hypersetup{
+	colorlinks=true
 }
 
 \title{Progetto Basi di Dati - Sistema condominiale}
