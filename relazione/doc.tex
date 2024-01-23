@@ -1,22 +1,11 @@
 \documentclass[11pt]{article}
 \usepackage[a4paper, total={6in, 8in}]{geometry}
-\usepackage{amsmath}  % for \hookrightarrow
+\usepackage{amsmath}
 \usepackage[italian]{babel}
 \usepackage{graphicx}
-\usepackage{listings}
-\usepackage{lmodern}  % for bold teletype font
 \usepackage{hyperref}
-\usepackage{xcolor}   % for \textcolor
 
 \graphicspath{ {images/} }
-
-\lstset{
-	basicstyle=\ttfamily,
-	columns=fullflexible,
-	frame=single,
-	breaklines=true,
-	postbreak=\mbox{\textcolor{red}{$\hookrightarrow$}\space},
-}
 
 \hypersetup{
 	colorlinks=true,
@@ -34,23 +23,13 @@
 }
 
 \begin{document}
-
-\maketitle
-
-\tableofcontents
-
-\include{introduzione}
-
-\include{schemaER}
-
-\include{analisi_ridondanze}
-
-\include{schema_logico}
-
-\section{Progettazione fisica}
-
-\section{Implementazione in SQL}
-
-\section{Analisi dati}
-
+	\maketitle
+	\tableofcontents
+	\include{introduzione}
+	\include{schemaER}
+	\include{analisiRidondanze}
+	\include{schemaLogico}
+	\include{fisico}
+	\include{impl}
+	\include{analisiDati}
 \end{document}
