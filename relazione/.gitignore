@@ -1,5 +1,5 @@
-/doc*
-!/doc.md
-!/doc.tex
-!/doc.pdf
-/*.aux
+*.aux
+*.synctex.gz
+*.toc
+*.log
+*.out

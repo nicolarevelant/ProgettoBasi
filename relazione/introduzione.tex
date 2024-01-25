@@ -1,20 +1,34 @@
 \section{Introduzione}
 
-Questo progetto permette di gestire un sistema condominiale,
-tenendo conto di tutti gli appartamenti di ogni condominio
-gestito dal sistema, le persone in cui ci abitano e i
-proprietari di ogni appartamento.
+Questo progetto permette di gestire la base di dati di
+un sistema condominiale composto da diversi condomini,
+tenendo traccia delle persone in cui ci abitano, i
+proprietari di ogni appartamento, la quota d'affitto
+pagabile a rate e le spese condominiali.
 
-\section{Descrizione soluzione}
+\subsection{Descrizione soluzione}
 
 Per implementare il sistema si parte dalla creazione di uno
-schema concettuale di tipo ER\footnote{Entità/relazioni},
+\hyperref[schemaER]{schema concettuale}
+di tipo ER\footnote{Entità/relazioni},
 il quale definisce quali entità sono presenti nel problema
 e come sono collegate fra di loro.
 
-Poi viene costruito lo schema logico di tipo relazionale,
-che è una traduzione dello schema concettuale in uno schema
-interpretabile da un gestore di database relazionali.
+Lo schema concettuale viene poi analizzato alla ricerca di
+eventuali
+\hyperref[ridondanze]{attributi ridondanti}
+per stabilire se conviene o meno mantenerli alla fase successiva.
+
+La fase successiva è la
+\hyperref[logico]{progettazione logica}
+che modella il problema da un punto di vista legato al tipo di
+DBMS\footnote{Database Management System - Sistema di gestione dei database}.
+
+In questo caso si utilizza il modello logico relazionale che
+utilizza le relazioni e le associazioni fra di esse. Tale schema
+non usa le specializzazioni che vengono quindi eliminate.
+
+% TODO: sistemare questa parte, non rispecchia la distinzione tra prog.fisica e l'implementazione...
 
 Infine lo schema viene tradotto in linguaggio SQL per la
 creazione del database e delle tabelle (o relazioni) le quali
