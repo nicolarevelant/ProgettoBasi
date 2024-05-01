@@ -2,8 +2,11 @@ library("RPostgreSQL")
 
 # TODO: elencoIndirizzi, elencoCausali, elencoNominativi
 
-
-
+# elencoIndirizzi: datset online comuni italiani
+# elencoCausali: decina di causali su CSV
+# elencoNominativi: nomi.txt e cognomi.txt su Teams Basi Laboratorio
+# condomini con x app. : x distribuzione normale media 10
+# spese : 30 dataOra per condominio
 
 # Genera elenco condomini senza ammontareComplessivo (codice, CC, indirizzo)
 
