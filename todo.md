@@ -15,4 +15,4 @@
 
 - Ion: index
 - Revelant: script R popolamento DB
-- Tridente: progettazione fisica/implemSQL sulla relazione
+- Tridente: schema ER, progettazione fisica, implementazione sulla relazione
