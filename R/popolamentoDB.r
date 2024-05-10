@@ -3,7 +3,6 @@ library("RPostgreSQL")
 # TODO: elencoIndirizzi, elencoCausali, elencoNominativi
 
 # elencoIndirizzi: datset online comuni italiani
-# condomini con x app. : x distribuzione normale media 10
 # spese : 30 dataOra per condominio
 
 # Genera elenco condomini senza ammontareComplessivo (codice, CC, indirizzo)
@@ -42,14 +41,23 @@ spese <- data.frame(dataOra = spese.dataOra,
 
 # Genera elenco appartamenti senza proprietario (numero, condominio, quotaAnnoCorrente, sommaPagata, telefono, superficie)
 
-appartamenti.size <- condomini.size * 10 # TODO: ogni condominio ha 10 appartamenti con numero da 1 a 10?
+varianza <- 3
+numeri_normali <- rnorm(condomini.size, 10, varianza)
+
 appartamenti.numero <- NULL
 appartamenti.condominio <- NULL
 
-for (condominio in condomini.codice) {
-	appartamenti.numero <- c(appartamenti.numero, 1:10)
-	appartamenti.condominio <- c(appartamenti.condominio, rep(condominio, 10))
+i <- 1
+while (i <= condomini.size) {
+	ripetizioni = round(numeri_normali[i])
+	if (ripetizioni < 1) {
+		ripetizioni = 1
+	}
+	appartamenti.numero <- c(appartamenti.numero, 1:ripetizioni)
+	appartamenti.condominio <- c(appartamenti.condominio, rep(condomini.codice[i], ripetizioni))
+	i <- i + 1
 }
+appartamenti.size <- length(appartamenti.numero)
 
 appartamenti.quotaAnnoCorrente <- sample(0:1000, appartamenti.size, replace=T)
 appartamenti.sommaPagata = NULL
