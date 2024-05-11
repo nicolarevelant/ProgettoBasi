@@ -1,9 +1,8 @@
 library("RPostgreSQL")
 
-# TODO: elencoIndirizzi, elencoCausali, elencoNominativi
+# TODO: elencoIndirizzi
 
 # elencoIndirizzi: datset online comuni italiani
-# spese : 30 dataOra per condominio
 
 # Genera elenco condomini senza ammontareComplessivo (codice, CC, indirizzo)
 
@@ -25,9 +24,25 @@ dataMin <- as.numeric(as.POSIXct("1990-01-01 00:00:00"))
 dataMax <- as.numeric(as.POSIXct("2023-12-31 23:59:59"))
 elencoCausali <- readLines("causali.txt")
 
-spese.size <- 4500
-spese.dataOra <- as.character(as.POSIXct(sample(dataMin:dataMax, spese.size, replace=T)))
-spese.condominio <- sample(condomini.codice, spese.size, replace=T) # TODO: coppia (dataOra, condominio) deve essere univoca !!!
+varianza <- 10
+distr_normale <- rnorm(condomini.size, 30, varianza)
+
+spese.dataOra <- NULL
+spese.condominio <- NULL
+
+i <- 1
+while (i <= condomini.size) {
+	ripetizioni <- round(distr_normale[i])
+	if (ripetizioni < 1) {
+		ripetizioni <- 1
+	}
+	spese.dataOra <- c(spese.dataOra, as.character(as.POSIXct(sample(dataMin:dataMax, ripetizioni))))
+	spese.condominio <- c(spese.condominio, rep(condomini.codice[i], ripetizioni))
+	i <- i + 1
+}
+
+spese.size <- length(spese.dataOra)
+
 spese.importo <- sample(100:3000, spese.size, replace=T)
 spese.causale <- sample(elencoCausali, spese.size, replace=T)
 
@@ -39,39 +54,39 @@ spese <- data.frame(dataOra = spese.dataOra,
 
 
 
-# Genera elenco appartamenti senza proprietario (numero, condominio, quotaAnnoCorrente, sommaPagata, telefono, superficie)
+# Genera elenco appartamenti senza proprietario (numero, condominio, quotaAnnoCorrente,
+#                                                sommaPagata, telefono, superficie)
 
 varianza <- 3
-numeri_normali <- rnorm(condomini.size, 10, varianza)
+distr_normale <- rnorm(condomini.size, 10, varianza)
 
 appartamenti.numero <- NULL
 appartamenti.condominio <- NULL
 
 i <- 1
 while (i <= condomini.size) {
-	ripetizioni = round(numeri_normali[i])
+	ripetizioni = round(distr_normale[i])
 	if (ripetizioni < 1) {
-		ripetizioni = 1
+		ripetizioni <- 1
 	}
 	appartamenti.numero <- c(appartamenti.numero, 1:ripetizioni)
 	appartamenti.condominio <- c(appartamenti.condominio, rep(condomini.codice[i], ripetizioni))
 	i <- i + 1
 }
+
 appartamenti.size <- length(appartamenti.numero)
+indici <- sample.int(appartamenti.size)
+appartamenti.numero <- appartamenti.numero[indici]
+appartamenti.condominio <- appartamenti.condominio[indici]
 
 appartamenti.quotaAnnoCorrente <- sample(0:1000, appartamenti.size, replace=T)
-appartamenti.sommaPagata = NULL
+appartamenti.sommaPagata <- NULL
 
 for (x in appartamenti.quotaAnnoCorrente) {
 	appartamenti.sommaPagata <- c(appartamenti.sommaPagata, sample(0:x, 1))
 }
 
-appartamenti.telefono <- NULL
-
-for (x in 1:10) {
-	appartamenti.telefono <- paste(sep="", appartamenti.telefono, sample(0:9, appartamenti.size, replace=T))
-}
-
+appartamenti.telefono <- replicate(appartamenti.size, paste(sample(0:9, 10, replace=T), collapse=""))
 appartamenti.superficie <- sample(40:300, appartamenti.size, replace=T)
 
 appartamenti <- data.frame(numero = appartamenti.numero,
@@ -80,6 +95,7 @@ appartamenti <- data.frame(numero = appartamenti.numero,
 			   sommaPagata = appartamenti.sommaPagata,
 			   telefono = appartamenti.telefono,
 			   superficie = appartamenti.superficie)
+
 
 
 
@@ -102,6 +118,8 @@ persone = data.frame(cf = persone.cf,
 		     nome = persone.nome,
 		     dataNascita = persone.dataNascita,
 		     indirizzo = persone.indirizzo)
+
+
 
 
 #db <- dbConnect(dbDriver("PostgreSQL"), dbname="test", user="test")
