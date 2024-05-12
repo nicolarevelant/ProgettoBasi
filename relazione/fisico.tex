@@ -1,2 +1,14 @@
 \section{Progettazione fisica}
 \label{fisico}
+
+Tenendo in considerazione le seguenti query
+
+\begin{tabular}{|p{320pt}|l|}
+	\hline
+	\textbf{Operazione} & \textbf{Frequenza} \\ \hline
+	Query elenco spese dell'anno corrente dei condomini che possiedono almeno 10 appartamenti & 1 volta/anno \\ \hline
+	Query importo complessivo delle spese di tutti i condomini con $50 <= ammontareComplessivo <= 100$ & 5 volte/anno \\ \hline
+	Query elenco persone più anziane che possiedono un appartamento con $superficie >= 50$ & 2 volte/mese \\ \hline
+\end{tabular}
+
+abbiamo optato per introdurre degli opportuni indici che miglioreranno le performance generali
