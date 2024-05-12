@@ -20,6 +20,7 @@ create domain cf as varchar(16)
 
 create table persona (
     cf_ cf PRIMARY KEY,
+    dataNascita date,
     nome varchar(20),
     indirizzo varchar(50),
     numeroAppartamento integer NOT NULL,
@@ -77,3 +78,12 @@ CREATE TRIGGER check_ind_persona
 AFTER INSERT OR UPDATE ON persona
 FOR EACH ROW
 EXECUTE PROCEDURE deriva_indirizzo_persona();
+
+
+CREATE INDEX idx_appartamento_proprietario ON appartamento (proprietario);
+
+CREATE INDEX idx_condominio_ammontareComplessivo ON condominio (ammontareComplessivo);
+
+CREATE INDEX idx_persona_dataNascita ON persona (dataNascita);
+
+CREATE INDEX idx_appartamento_superficie ON appartamento (superficie);
