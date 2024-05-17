@@ -1,2 +1,25 @@
 \section{Progettazione fisica}
 \label{fisico}
+
+\subsection{Indici}
+
+Tenendo in considerazione le seguenti query:
+
+\begin{tabular}{|p{320pt}|l|}
+	\hline
+	\textbf{Operazione} & \textbf{Frequenza} \\ \hline
+	Query elenco spese dell'anno corrente dei condomini che possiedono almeno 10 appartamenti & 1 volta/anno \\ \hline
+	Query importo complessivo delle spese di tutti i condomini con $50 <= ammontareComplessivo <= 100$ & 5 volte/anno \\ \hline
+	Query elenco persone più anziane che possiedono un appartamento con $superficie >= 50$ & 2 volte/mese \\ \hline
+\end{tabular}
+
+abbiamo optato per introdurre indici sui seguenti attributi:
+
+\begin{itemize}
+    \item proprietario della relazione Appartamento;
+    \item ammontareComplessivo della relazione Condominio;
+    \item dataNascita della relazione Persona;
+    \item superficie della relazione Appartamento.
+\end{itemize}
+
+Il motivo per cui abbiamo utilizzato degli indici è per migliorare le prestazioni delle query sopracitate, perché o sono operazioni effettuate spesso (come nel caso dell'ultima query), o sono operazioni computazionalmente pesanti (come nel caso delle prime due query).
