@@ -7,7 +7,7 @@ library("RPostgreSQL")
 # Genera elenco condomini senza ammontareComplessivo (codice, CC, indirizzo)
 # l'ammontare complessivo viene calcolato da un trigger SQL
 
-indirizzi = readLines("indirizzi.txt")
+indirizzi = read.csv("indirizzi_US.csv")[,"FULL.ADDRESS"]
 
 condomini.size <- 150
 condomini.codice <- sample(1:1000000, condomini.size)
@@ -15,7 +15,7 @@ condomini.CC <- sample(100000000:999999999, condomini.size)
 condomini.indirizzo <- sample(indirizzi, condomini.size, replace=T) # TODO: togliere replace=T
 
 condomini <- data.frame(codice = condomini.codice,
-			CC = condomini.CC,
+			contoCorrente = condomini.CC,
 			indirizzo = condomini.indirizzo)
 
 
@@ -114,7 +114,7 @@ dataMax <- as.numeric(as.POSIXct("2023-12-31 23:59:59"))
 nomi <- readLines("nomi.txt")
 cognomi <- readLines("cognomi.txt")
 
-persone.size <- 1000
+persone.size <- 1200
 
 # TODO: fix codice fiscale
 persone.cf <- paste(sep="", "CF_", sample(1:1000000, persone.size))
@@ -137,9 +137,20 @@ persone = data.frame(cf = persone.cf,
 
 db <- dbConnect(RPostgreSQL::PostgreSQL(), dbname="test", user="test")
 
-dbWriteTable(db, "condominio", condomini)
-dbWriteTable(db, "spesa", spese)
-dbWriteTable(db, "appartamento", appartamenti)
-dbWriteTable(db, "persona", persone)
+# previene creazione tabelle
+stopifnot(dbExistsTable(db, "condominio"))
+stopifnot(dbExistsTable(db, "spesa"))
+stopifnot(dbExistsTable(db, "appartamento"))
+stopifnot(dbExistsTable(db, "persona"))
 
-#dbDisconnect(db)
+dbExecute(db, 'DELETE FROM condominio')
+dbExecute(db, 'DELETE FROM spesa')
+dbExecute(db, 'DELETE FROM appartamento')
+dbExecute(db, 'DELETE FROM persona')
+
+dbWriteTable(db, "condominio", condomini, append=T, row.names=F)
+dbWriteTable(db, "spesa", spese, append=T, row.names=F)
+dbWriteTable(db, "appartamento", appartamenti, append=T, row.names=F)
+dbWriteTable(db, "persona", persone, append=T, row.names=F)
+
+dbDisconnect(db)
