@@ -95,13 +95,6 @@ for (x in appartamenti.quotaAnnoCorrente) {
 appartamenti.telefono <- replicate(appartamenti.size, paste(sample(0:9, 10, replace=T), collapse=""))
 appartamenti.superficie <- sample(40:300, appartamenti.size, replace=T)
 
-appartamenti <- data.frame(numero = appartamenti.numero,
-			   condominio = appartamenti.condominio,
-			   quotaAnnoCorrente = appartamenti.quotaAnnoCorrente,
-			   sommaPagata = appartamenti.sommaPagata,
-			   telefono = appartamenti.telefono,
-			   superficie = appartamenti.superficie)
-
 
 
 
@@ -117,7 +110,7 @@ cognomi <- readLines("cognomi.txt")
 persone.size <- 1200
 
 # TODO: fix codice fiscale
-persone.cf <- paste(sep="", "CF_", sample(1:1000000, persone.size))
+persone.cf <- replicate(persone.size, paste(sample(0:9, 16, replace=T), collapse=""))
 persone.nome <- paste(sample(nomi, persone.size, replace=T),
 		      sample(cognomi, persone.size, replace=T))
 persone.dataNascita <- as.character(as.POSIXct(sample(dataMin:dataMax, persone.size, replace=T)))
@@ -133,6 +126,18 @@ persone = data.frame(cf = persone.cf,
 		     condominio = persone.condominio)
 
 
+
+
+# appartamenti.proprietario presi dalle persone
+appartamenti.proprietario = sample(persone.cf, appartamenti.size, replace=T) # TODO: solo 200 proprietari
+
+appartamenti <- data.frame(numero = appartamenti.numero,
+			   condominio = appartamenti.condominio,
+			   quotaAnnoCorrente = appartamenti.quotaAnnoCorrente,
+			   sommaPagata = appartamenti.sommaPagata,
+			   telefono = appartamenti.telefono,
+			   superficie = appartamenti.superficie,
+			   proprietario = appartamenti.proprietario)
 
 
 db <- dbConnect(RPostgreSQL::PostgreSQL(), dbname="test", user="test")
