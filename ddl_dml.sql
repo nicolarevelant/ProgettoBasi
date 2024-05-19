@@ -1,7 +1,7 @@
 /*
 TODO: trigger per ammontareComplessivo e sistemare NOT NULL
 
-Note per Fabio: per preservare le maiuscole servono i doppi apici nel nome delle tabelle/campi, non nei trigger
+Note per Fabio: per preservare le maiuscole servono i doppi apici nel nome delle tabelle/campi, anche nei trigger
 */
 
 DROP SCHEMA public CASCADE;
