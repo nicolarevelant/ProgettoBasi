@@ -122,7 +122,7 @@ persone.condominio <- appartamenti.condominio[indici]
 persone = data.frame(cf = persone.cf,
 		     nome = persone.nome,
 		     dataNascita = persone.dataNascita,
-		     appartamento = persone.appartamento,
+		     numeroAppartamento = persone.appartamento,
 		     condominio = persone.condominio)
 
 
@@ -148,14 +148,22 @@ stopifnot(dbExistsTable(db, "spesa"))
 stopifnot(dbExistsTable(db, "appartamento"))
 stopifnot(dbExistsTable(db, "persona"))
 
-dbExecute(db, 'DELETE FROM condominio')
-dbExecute(db, 'DELETE FROM spesa')
+dbBegin(db)
+
+print(" -- Delete old records --")
+
 dbExecute(db, 'DELETE FROM appartamento')
 dbExecute(db, 'DELETE FROM persona')
+dbExecute(db, 'DELETE FROM spesa')
+dbExecute(db, 'DELETE FROM condominio')
+
+print(" -- Insert new records --")
 
 dbWriteTable(db, "condominio", condomini, append=T, row.names=F)
 dbWriteTable(db, "spesa", spese, append=T, row.names=F)
-dbWriteTable(db, "appartamento", appartamenti, append=T, row.names=F)
 dbWriteTable(db, "persona", persone, append=T, row.names=F)
+dbWriteTable(db, "appartamento", appartamenti, append=T, row.names=F)
+
+dbCommit(db)
 
 dbDisconnect(db)
