@@ -5,7 +5,7 @@ create table condominio(
     codice integer PRIMARY KEY,
     "contoCorrente" varchar(12) NOT NULL, -- ZEROFILL
     indirizzo varchar(50) NOT NULL,
-    "ammontareComplessivo" numeric(6,2) DEFAULT 0.00
+    "ammontareComplessivo" numeric(8,2) DEFAULT 0.00
 );
 
 create table spesa (

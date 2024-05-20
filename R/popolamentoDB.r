@@ -47,7 +47,7 @@ while (i <= condomini.size) {
 # size: indicativamente 4500 (in media 30 spese * 150 condomini)
 spese.size <- length(spese.dataOra)
 
-spese.importo <- sample(100:3000, spese.size, replace=T)
+spese.importo <- sample(20:800, spese.size, replace=T)
 spese.causale <- sample(elencoCausali, spese.size, replace=T)
 
 spese <- data.frame(dataOra = spese.dataOra,
