@@ -1,9 +1,3 @@
-/*
-TODO: trigger per ammontareComplessivo e sistemare NOT NULL
-
-Note per Fabio: per preservare le maiuscole servono i doppi apici nel nome delle tabelle/campi, anche nei trigger
-*/
-
 DROP SCHEMA public CASCADE;
 CREATE SCHEMA public;
 
@@ -54,42 +48,52 @@ ALTER TABLE appartamento
     ADD CONSTRAINT fk_app_persona FOREIGN KEY (proprietario) REFERENCES persona(cf);
 
 -- indirizzo proprietario è null SSE possiede l'appartamento (numeroAppartamento, condominio), nel quale ci abita
--- TODO: non funziona, ho aggiunto RETURN NEW (poiche dava errore altrimenti) però non mette l'indirizzo a nessuno
 CREATE OR REPLACE FUNCTION deriva_indirizzo_persona()
 RETURNS trigger AS
 $$
-    DECLARE
-        indirizzo_derivato varchar(50);
-    BEGIN
-        PERFORM appartamento.numero, appartamento.condominio
-        FROM appartamento
-        WHERE appartamento.proprietario = new.cf
+DECLARE
+    indirizzo_derivato VARCHAR(50);
+BEGIN
+    PERFORM numero, condominio
+    FROM appartamento
+    WHERE appartamento.proprietario = new.cf
             AND appartamento.numero = new."numeroAppartamento"
             AND appartamento.condominio = new.condominio;
 
-        IF FOUND THEN
-            UPDATE persona
-            SET indirizzo = NULL
-            WHERE OLD.cf = NEW.cf;
-            RETURN NEW;
-        ELSE
-            SELECT c.indirizzo INTO indirizzo_derivato
-            FROM condominio AS c
-            WHERE c.codice = new.condominio;
+    IF FOUND THEN
+        new.indirizzo = NULL;
+    ELSE
+        SELECT c.indirizzo INTO indirizzo_derivato
+        FROM condominio AS c
+        WHERE c.codice = new.condominio;
 
-            UPDATE persona
-            SET indirizzo = indirizzo_derivato
-            WHERE OLD.cf = NEW.cf;
-            RETURN NEW;
-        END IF;
-    END;
+        new.indirizzo = indirizzo_derivato;
+    END IF;
+    RETURN new;
+END;
 $$ LANGUAGE plpgsql;
 
 CREATE TRIGGER check_ind_persona
-AFTER INSERT OR UPDATE ON persona
+BEFORE INSERT OR UPDATE ON persona
 FOR EACH ROW
 EXECUTE PROCEDURE deriva_indirizzo_persona();
 
+
+CREATE OR REPLACE FUNCTION aggiorna_ammontareComplessivo()
+RETURNS TRIGGER AS
+$$
+BEGIN
+    UPDATE condominio
+    SET "ammontareComplessivo" = "ammontareComplessivo" + new.importo
+    WHERE codice = new.condominio;
+    RETURN new;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER aggiorna_ammontare
+AFTER INSERT ON spesa
+FOR EACH ROW
+EXECUTE FUNCTION aggiorna_ammontareComplessivo();
 
 CREATE INDEX idx_appartamento_proprietario ON appartamento (proprietario);
 
