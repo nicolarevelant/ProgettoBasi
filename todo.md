@@ -2,14 +2,17 @@
 
 # TODO
 
-- trigger, index
-- query semplici
-- script in R per popolamento database
-- grafici in R
-- completare relazione finale: introduzione, descrizione soluzione, schema ER, progettazione fisica/implementazione SQL
+- index: 2024-05-06
+- script in R per popolamento database: 2024-05-13
+- grafici in R: 2024-05-16
+- completare relazione finale:
+    - introduzione, descrizione soluzione: 2024-05-31
+    - schema ER: 2024-05-08
+    - progettazione fisica: 2024-05-17
+    - implementazione: 2024-05-24
 
 # Smistamento lavoro
 
-- Ion: trigger, index, query semplici
-- Revelant: script R popolamento DB, completare introduzione e descrizione soluzione sulla relazione
-- Tridente: progettazione fisica/implemSQL sulla relazione
+- Ion: index
+- Revelant: script R popolamento DB
+- Tridente: schema ER, progettazione fisica, implementazione sulla relazione
