@@ -1,5 +1,7 @@
 library("RPostgreSQL")
 
+set.seed(16784)
+
 # TODO: elencoIndirizzi
 
 # elencoIndirizzi: datset online comuni italiani
@@ -115,6 +117,7 @@ persone.nome <- paste(sample(nomi, persone.size, replace=T),
 		      sample(cognomi, persone.size, replace=T))
 persone.dataNascita <- as.character(as.POSIXct(sample(dataMin:dataMax, persone.size, replace=T)))
 
+# assegno abitazione
 indici <- sample.int(appartamenti.size, persone.size)
 persone.appartamento <- appartamenti.numero[indici]
 persone.condominio <- appartamenti.condominio[indici]
@@ -128,8 +131,9 @@ persone = data.frame(cf = persone.cf,
 
 
 
-# appartamenti.proprietario presi dalle persone
-appartamenti.proprietario = sample(persone.cf, appartamenti.size, replace=T) # TODO: solo 200 proprietari
+# assegno proprietario
+proprietari = sample(persone.cf, 200)
+appartamenti.proprietario = sample(proprietari, appartamenti.size, replace=T) # TODO: solo 200 proprietari
 
 appartamenti <- data.frame(numero = appartamenti.numero,
 			   condominio = appartamenti.condominio,
@@ -152,8 +156,8 @@ dbBegin(db)
 
 print(" -- Delete old records --")
 
-dbExecute(db, 'DELETE FROM appartamento')
 dbExecute(db, 'DELETE FROM persona')
+dbExecute(db, 'DELETE FROM appartamento')
 dbExecute(db, 'DELETE FROM spesa')
 dbExecute(db, 'DELETE FROM condominio')
 
@@ -161,8 +165,8 @@ print(" -- Insert new records --")
 
 dbWriteTable(db, "condominio", condomini, append=T, row.names=F)
 dbWriteTable(db, "spesa", spese, append=T, row.names=F)
-dbWriteTable(db, "persona", persone, append=T, row.names=F)
 dbWriteTable(db, "appartamento", appartamenti, append=T, row.names=F)
+dbWriteTable(db, "persona", persone, append=T, row.names=F)
 
 dbCommit(db)
 

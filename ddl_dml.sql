@@ -41,11 +41,11 @@ create table appartamento (
 
 ALTER TABLE persona
     ADD CONSTRAINT fk_persona_app FOREIGN KEY ("numeroAppartamento", condominio)
-    REFERENCES appartamento(numero, condominio)
-    DEFERRABLE INITIALLY DEFERRED;
+    REFERENCES appartamento(numero, condominio);
 
 ALTER TABLE appartamento
-    ADD CONSTRAINT fk_app_persona FOREIGN KEY (proprietario) REFERENCES persona(cf);
+    ADD CONSTRAINT fk_app_persona FOREIGN KEY (proprietario) REFERENCES persona(cf)
+    DEFERRABLE INITIALLY DEFERRED;
 
 -- indirizzo proprietario è null SSE possiede l'appartamento (numeroAppartamento, condominio), nel quale ci abita
 CREATE OR REPLACE FUNCTION deriva_indirizzo_persona()
@@ -61,13 +61,13 @@ BEGIN
             AND appartamento.condominio = new.condominio;
 
     IF FOUND THEN
-        new.indirizzo = NULL;
-    ELSE
         SELECT c.indirizzo INTO indirizzo_derivato
         FROM condominio AS c
         WHERE c.codice = new.condominio;
 
         new.indirizzo = indirizzo_derivato;
+    ELSE
+        new.indirizzo = NULL;
     END IF;
     RETURN new;
 END;
