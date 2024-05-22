@@ -144,7 +144,7 @@ appartamenti <- data.frame(numero = appartamenti.numero,
 			   proprietario = appartamenti.proprietario)
 
 
-db <- dbConnect(RPostgreSQL::PostgreSQL(), dbname="test", user="test")
+db <- dbConnect(RPostgreSQL::PostgreSQL(), dbname="basi28", user="basi28")
 
 # previene creazione tabelle
 stopifnot(dbExistsTable(db, "condominio"))

@@ -6,7 +6,7 @@
     echo "OK"
 
     echo -n "Creazione DB: " &&
-    psql test test < ddl_dml.sql > /dev/null 2> /dev/null &&
+    psql basi28 basi28 < ddl_dml.sql > /dev/null 2> /dev/null &&
     echo "OK" &&
 
     echo -n "Popolamento DB: " &&
