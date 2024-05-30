@@ -1,2 +1,9 @@
 \section{Implementazione}
 \label{impl}
+
+Il codice con la definizione delle query si può trovare in allegato alla relazione nell'apposito file .sql.
+
+\subsection{Trigger}
+
+    Sono stati definiti due trigger: il primo trigger serve per calcolare l'indirizzo di Persona, che è un attributo derivato opzionale, dove è null se e solo se il proprietario abita nell'appartamento che possiede, mentre il secondo trigger serve per calcolare l'ammontare complessivo di Condominio.
+    Il primo trigger viene eseguito prima di ogni inserimento o aggiornamento della tabella Persona, mentre il secondo trigger viene eseguito dopo ogni inserimento nella tabella Spesa.
