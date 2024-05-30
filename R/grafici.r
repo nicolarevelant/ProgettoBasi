@@ -12,6 +12,7 @@ appSuperQuota <- dbGetQuery(db, "SELECT superficie, \"quotaAnnoCorrente\" FROM a
 
 condomini <- dbGetQuery(db, "SELECT codice FROM condominio")$codice
 appSuper <- dbGetQuery(db, paste("SELECT superficie FROM appartamento WHERE condominio =", sample(condomini, 1)))
+appSpese <- dbGetQuery(db, "SELECT \"quotaAnnoCorrente\", \"sommaPagata\" FROM appartamento")
 
 stopifnot(dbDisconnect(db))
 
@@ -56,6 +57,14 @@ hist(appSuper$superficie, n - 1,
     ylab = "Frequenza")
 
 # 5: confronto quota anno corrente con somma pagata (plot doppia barra)
+histQuota = hist(appSpese$quotaAnnoCorrente, plot=F)
+histPagata = hist(appSpese$sommaPagata, plot=F, breaks=histQuota$breaks)
+histQuota
+histPagata
+mat <- matrix(c(histQuota$counts, histPagata$counts), nrow=2, byrow=T)
+mat
+barplot(mat,
+    names.arg = histQuota$mids) # TODO: non sono sicuro, lavoro in corso...
 
 # 6: percentuale causali spese di 1 condominio (plot a torta)
 
