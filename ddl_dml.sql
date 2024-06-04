@@ -2,18 +2,18 @@ DROP SCHEMA public CASCADE;
 CREATE SCHEMA public;
 
 create table condominio(
-    codice integer PRIMARY KEY,
-    "contoCorrente" varchar(12) NOT NULL, -- ZEROFILL
-    indirizzo varchar(50) NOT NULL,
-    "ammontareComplessivo" numeric(8,2) DEFAULT 0.00
+    codice INTEGER PRIMARY KEY,
+    "contoCorrente" VARCHAR(12) NOT NULL, -- ZEROFILL
+    indirizzo VARCHAR(50) NOT NULL,
+    "ammontareComplessivo" NUMERIC(8,2) DEFAULT 0.00
 );
 
 create table spesa (
-    "dataOra" timestamp,
-    condominio integer REFERENCES condominio (codice),
-    importo numeric(6,2) NOT NULL CHECK (importo > 0.00),
-    causale varchar(50) NOT NULL,
-    CONSTRAINT pk_spesa primary key ("dataOra", condominio)
+    "dataOra" TIMESTAMP,
+    condominio INTEGER REFERENCES condominio (codice),
+    importo NUMERIC(6,2) NOT NULL CHECK (importo > 0.00),
+    causale VARCHAR(50) NOT NULL,
+    CONSTRAINT pk_spesa PRIMARY KEY ("dataOra", condominio)
 );
 
 create domain cf_domain as varchar(16)
@@ -21,31 +21,31 @@ create domain cf_domain as varchar(16)
 
 create table persona (
     cf cf_domain PRIMARY KEY,
-    "dataNascita" date,
-    nome varchar(50),
-    indirizzo varchar(50),
-    "numeroAppartamento" integer NOT NULL,
-    condominio integer NOT NULL
+    "dataNascita" DATE NOT NULL,
+    nome VARCHAR(50) NOT NULL,
+    indirizzo VARCHAR(50),
+    "numeroAppartamento" INTEGER NOT NULL,
+    condominio INTEGER NOT NULL
 );
 
 create table appartamento (
-    numero integer check ((numero >= 1) and (numero <= 50)),
-    condominio integer REFERENCES condominio (codice),
-    "quotaAnnoCorrente" numeric(6,2) NOT NULL CHECK ("quotaAnnoCorrente" >= 0),
-    "sommaPagata" numeric(6,2) NOT NULL,
-    telefono varchar(10) check (telefono SIMILAR TO '[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]'),
-    superficie integer NOT NULL check (superficie >= 1),
+    numero INTEGER CHECK ((numero >= 1) and (numero <= 50)),
+    condominio INTEGER REFERENCES condominio (codice),
+    "quotaAnnoCorrente" NUMERIC(6,2) NOT NULL CHECK ("quotaAnnoCorrente" >= 0),
+    "sommaPagata" NUMERIC(6,2) NOT NULL,
+    telefono CHAR(10) CHECK (telefono SIMILAR TO '[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]'),
+    superficie INTEGER NOT NULL CHECK (superficie >= 1),
     proprietario cf_domain NOT NULL,
     CONSTRAINT pk_appartamento PRIMARY KEY (numero, condominio)
 );
 
 ALTER TABLE persona
     ADD CONSTRAINT fk_persona_app FOREIGN KEY ("numeroAppartamento", condominio)
-    REFERENCES appartamento(numero, condominio)
-    DEFERRABLE INITIALLY DEFERRED;
+    REFERENCES appartamento(numero, condominio);
 
 ALTER TABLE appartamento
-    ADD CONSTRAINT fk_app_persona FOREIGN KEY (proprietario) REFERENCES persona(cf);
+    ADD CONSTRAINT fk_app_persona FOREIGN KEY (proprietario) REFERENCES persona(cf)
+    DEFERRABLE INITIALLY DEFERRED;
 
 -- indirizzo proprietario è null SSE possiede l'appartamento (numeroAppartamento, condominio), nel quale ci abita
 CREATE OR REPLACE FUNCTION deriva_indirizzo_persona()
@@ -61,13 +61,13 @@ BEGIN
             AND appartamento.condominio = new.condominio;
 
     IF FOUND THEN
-        new.indirizzo = NULL;
-    ELSE
         SELECT c.indirizzo INTO indirizzo_derivato
         FROM condominio AS c
         WHERE c.codice = new.condominio;
 
         new.indirizzo = indirizzo_derivato;
+    ELSE
+        new.indirizzo = NULL;
     END IF;
     RETURN new;
 END;
@@ -76,7 +76,7 @@ $$ LANGUAGE plpgsql;
 CREATE TRIGGER check_ind_persona
 BEFORE INSERT OR UPDATE ON persona
 FOR EACH ROW
-EXECUTE PROCEDURE deriva_indirizzo_persona();
+EXECUTE FUNCTION deriva_indirizzo_persona();
 
 
 CREATE OR REPLACE FUNCTION aggiorna_ammontareComplessivo()
