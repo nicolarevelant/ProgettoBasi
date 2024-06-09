@@ -1,6 +1,7 @@
+library("DBI")
 library("RPostgreSQL")
 
-set.seed(16784)
+set.seed(614512)
 
 # TODO: elencoIndirizzi
 
@@ -152,22 +153,17 @@ stopifnot(dbExistsTable(db, "spesa"))
 stopifnot(dbExistsTable(db, "appartamento"))
 stopifnot(dbExistsTable(db, "persona"))
 
-dbBegin(db)
+stopifnot(dbBegin(db))
 
-print(" -- Delete old records --")
+x = dbExecute(db, 'DELETE FROM persona')
+x = dbExecute(db, 'DELETE FROM appartamento')
+x = dbExecute(db, 'DELETE FROM spesa')
+x = dbExecute(db, 'DELETE FROM condominio')
 
-dbExecute(db, 'DELETE FROM persona')
-dbExecute(db, 'DELETE FROM appartamento')
-dbExecute(db, 'DELETE FROM spesa')
-dbExecute(db, 'DELETE FROM condominio')
+stopifnot(dbWriteTable(db, "condominio", condomini, append=T, row.names=F))
+stopifnot(dbWriteTable(db, "spesa", spese, append=T, row.names=F))
+stopifnot(dbWriteTable(db, "appartamento", appartamenti, append=T, row.names=F))
+stopifnot(dbWriteTable(db, "persona", persone, append=T, row.names=F))
 
-print(" -- Insert new records --")
-
-dbWriteTable(db, "condominio", condomini, append=T, row.names=F)
-dbWriteTable(db, "spesa", spese, append=T, row.names=F)
-dbWriteTable(db, "appartamento", appartamenti, append=T, row.names=F)
-dbWriteTable(db, "persona", persone, append=T, row.names=F)
-
-dbCommit(db)
-
-dbDisconnect(db)
+stopifnot(dbCommit(db))
+stopifnot(dbDisconnect(db))
