@@ -56,14 +56,32 @@ WHERE  P."numeroAppartamento" = A.numero AND P.condominio = A.condominio;
 -- Query 5
 
 SELECT cf
-FROM   (persona P JOIN appartamento A ON P.cf = A.proprietario)
+FROM   (persona P INNER JOIN appartamento A ON P.cf = A.proprietario)
 WHERE  superficie >= 50 AND "dataNascita" = (SELECT MIN(P2."dataNascita")
                                              FROM   persona P2);
 
 -- variante 2
 
 SELECT DISTINCT P.cf
-FROM   (persona P JOIN appartamento A ON P.cf = A.proprietario)
+FROM   (persona P INNER JOIN appartamento A ON P.cf = A.proprietario)
 WHERE  A.superficie >= 50 AND "dataNascita" = (SELECT MIN(P2."dataNascita")
-                                               FROM  (persona P2 JOIN appartamento A2 ON P2.cf = A2.proprietario)
+                                               FROM   (persona P2 JOIN appartamento A2 ON P2.cf = A2.proprietario)
                                                WHERE  A2.superficie >= 50);
+
+-- Query semplice 1
+
+SELECT codice, "ammontareComplessivo"
+FROM condominio;
+
+-- Query semplice 2
+
+SELECT p.indirizzo
+FROM persona p INNER JOIN appartamento a ON p.cf = a.proprietario
+WHERE p.indirizzo IS NOT NULL
+
+UNION
+
+SELECT c.indirizzo
+FROM (persona p INNER JOIN appartamento a ON p.cf = a.proprietario) INNER JOIN condominio c
+ON a.condominio = c.codice
+WHERE p.indirizzo IS NULL;
