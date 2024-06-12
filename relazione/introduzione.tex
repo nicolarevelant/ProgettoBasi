@@ -37,3 +37,14 @@ verranno popolate con i dati generati da uno strumento esterno.
 Tale strumento esterno è uno script in linguaggio R che si
 occupa di creare le istruzioni di inserimento nella base di dati
 e la generazione di grafici.
+
+\subsection{Obbiettivi della soluzione}
+
+\begin{itemize}
+    \item \textbf{Raccolta e analisi dei requisiti}: dopo aver letto attentamente i requisiti fornitoci abbiamo identificato i principali attori del problema e stilato un glossario dei termini, utile per avere una visione schematizzata del problema affrontato. In questa fase abbiamo fatto le opportune scelte per appianare eventuali dubbi e ambiguità presenti nel testo, anche confrontandoci con il professore.
+    \item \textbf{Progettazione dello schema-ER}: tramite un approccio \textit{inside-out} abbiamo proceduto alla rappresentazione del nostro problema mediante uno schema ER, dove sono state definite le entità (Condominio, Spesa, Appartamento, Persona e Proprietario) e le relazioni (paga, appartenenza, possiede, abita). In questa fase sono stati definiti anche opportuni vincoli d'integrità che saranno poi gestiti tramite dei \textit{trigger} nella fase fisica.
+    \item \textbf{Analisi delle ridondanze}: valuta, dopo opportuni calcoli, se mantenere o meno certi attributi ridondanti come l'ammontare complessivo del condominio per migliorare eventuale l'efficienza generale del sistema.
+    \item \textbf{Progettazione logica e fisica}: si traduce lo schema ER in un modello logico relazionale, si definiscono le chiavi esterne, le query e opportuni indici per migliorare l'efficienza del sistema.
+    \item \textbf{Implementazione}: si definiscono le tabelle della base di dati, le query, gli indici e i trigger in \textit{SQL}, si popola la base di dati (tramite R).
+    \item \textbf{Analisi dei dati}: si comprendono i dati, la relazione tra essi, eventuali trend o pattern.
+\end{itemize}
