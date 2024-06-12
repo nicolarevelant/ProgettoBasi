@@ -19,13 +19,13 @@ FROM condominio;
 > Restituire l'indirizzo di ogni proprietario
 
 ```
-SELECT p.indirizzo
+SELECT p.cf, p.indirizzo
 FROM persona p INNER JOIN appartamento a ON p.cf = a.proprietario
 WHERE p.indirizzo IS NOT NULL
 
 UNION
 
-SELECT c.indirizzo
+SELECT p.cf, c.indirizzo
 FROM (persona p INNER JOIN appartamento a ON p.cf = a.proprietario) INNER JOIN condominio c
 ON a.condominio = c.codice
 WHERE p.indirizzo IS NULL;
