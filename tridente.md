@@ -14,9 +14,9 @@ WHERE  ammontareComplessivo BETWEEN 50 AND 100;
 ```
 SELECT cf
 FROM   persona P
-WHERE  EXISTS  (SELECT *
+WHERE  EXISTS  (SELECT \*
                 FROM   appartamento
-                WHERE  P.numeroAppartamento = numero AND
+                WHERE  P."numeroAppartamento" = numero AND
                        P.condominio = condominio AND
                        P.cf = proprietario);
 ```
@@ -24,12 +24,12 @@ WHERE  EXISTS  (SELECT *
 ```
 SELECT cf
 FROM   (persona P JOIN appartamento A ON P.cf = A.proprietario)
-WHERE  P.numeroAppartamento = A.numero AND P.condominio = A.condominio;
+WHERE  P."numeroAppartamento" = A.numero AND P.condominio = A.condominio;
 ```
 ## Query 5
 ```
 SELECT cf
 FROM   (persona P JOIN appartamento A ON P.cf = A.proprietario)
-WHERE  superficie >= 50 AND dataNascita = (SELECT MIN(P2.dataNascita)
-                                           FROM   persona P2);
+WHERE  superficie >= 50 AND "dataNascita" = (SELECT MIN(P2."dataNascita")
+                                             FROM   persona P2);
 ```

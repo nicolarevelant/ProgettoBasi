@@ -7,26 +7,43 @@
 
 # 1
 
-> Per ogni condominio avente almeno 1 appartamente posseduto da "RVL", elencare le ultime 5 spese dal registro spese
+> Per ogni condominio avente almeno 1 appartamente posseduto da "x",
+> elencare le ultime 5 spese dal registro spese
 
-> SELECT \* FROM spesa S1 WHERE condominio IN
->       (SELECT condominio FROM appartamento WHERE proprietario = "RVL") AND dataOra IN
->       (SELECT dataOra FROM spesa S2 WHERE S1.condominio = S2.condominio ORDER BY dataOra DESC LIMIT 5);
-
+```
+SELECT \*
+FROM spesa S1
+WHERE condominio IN
+        (SELECT condominio
+         FROM appartamento
+         WHERE proprietario = "x")
+        AND "dataOra" IN
+                (SELECT "dataOra"
+                 FROM spesa S2
+                 WHERE S1.condominio = S2.condominio
+                 ORDER BY "dataOra" DESC LIMIT 5);
+```
 
 # 2
 
 ## Modo 1
-> CREATE VIEW condominiMedioGrandi(condominio) AS
->        (SELECT condominio FROM appartamento GROUP BY condominio HAVING COUNT(\*) \>= 10);
->
-> SELECT condominio, dataOra, importo, causale FROM condominiMedioGrandi INNER JOIN spesa S ON condominio = S.condominio;
+
+```
+CREATE VIEW "condominiMedioGrandi"(condominio) AS
+(SELECT condominio
+ FROM appartamento
+ GROUP BY condominio HAVING COUNT(\*) \>= 10);
+
+SELECT condominio, "dataOra", importo, causale
+FROM "condominiMedioGrandi" INNER JOIN spesa S ON condominio = S.condominio;
+```
 
 ## Modo 2
 
-> SELECT condominio, dataOra, importo, causale FROM (SELECT condominio FROM appartamento GROUP BY condominio HAVING COUNT(\*) \>= 10) INNER JOIN spesa S ON condominio = S.condominio;
-
-## Modo 3
-
-> SELECT condominio, dataOra, importo, causale
->   FROM appartamento A INNER JOIN spesa S ON A.condominio = S.condominio GROUP BY condominio HAVING COUNT(\*) \>= 10);
+```
+SELECT condominio, dataOra, importo, causale
+FROM (SELECT condominio
+      FROM appartamento
+      GROUP BY condominio HAVING COUNT(\*) \>= 10)
+        INNER JOIN spesa S ON condominio = S.condominio;
+```
