@@ -47,6 +47,7 @@ ALTER TABLE appartamento
     ADD CONSTRAINT fk_app_persona FOREIGN KEY (proprietario) REFERENCES persona(cf)
     DEFERRABLE INITIALLY DEFERRED;
 
+-- TODO: non rispecchia i requisiti, leggi riga sotto
 -- indirizzo proprietario è null SSE possiede l'appartamento (numeroAppartamento, condominio), nel quale ci abita
 CREATE OR REPLACE FUNCTION deriva_indirizzo_persona()
 RETURNS trigger AS

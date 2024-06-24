@@ -3,23 +3,19 @@ library("RPostgreSQL")
 
 set.seed(614512)
 
-# TODO: elencoIndirizzi
-
-# elencoIndirizzi: datset online comuni italiani
-
 # Genera elenco condomini senza ammontareComplessivo (codice, CC, indirizzo)
 # l'ammontare complessivo viene calcolato da un trigger SQL
 
-indirizzi = read.csv("indirizzi_US.csv")[,"FULL.ADDRESS"]
+indirizzi <- read.csv("indirizzi_US.csv")[, "FULL.ADDRESS"]
 
 condomini.size <- 150
 condomini.codice <- sample(1:1000000, condomini.size)
 condomini.CC <- sample(100000000:999999999, condomini.size)
-condomini.indirizzo <- sample(indirizzi, condomini.size, replace=T) # TODO: togliere replace=T
+condomini.indirizzo <- sample(indirizzi, condomini.size)
 
 condomini <- data.frame(codice = condomini.codice,
-			contoCorrente = condomini.CC,
-			indirizzo = condomini.indirizzo)
+                        contoCorrente = condomini.CC,
+                        indirizzo = condomini.indirizzo)
 
 
 
@@ -38,13 +34,13 @@ spese.condominio <- NULL
 
 i <- 1
 while (i <= condomini.size) {
-	ripetizioni <- round(distr_normale[i])
-	if (ripetizioni < 1) {
-		ripetizioni <- 1
-	}
-	spese.dataOra <- c(spese.dataOra, as.character(as.POSIXct(sample(dataMin:dataMax, ripetizioni))))
-	spese.condominio <- c(spese.condominio, rep(condomini.codice[i], ripetizioni))
-	i <- i + 1
+    ripetizioni <- round(distr_normale[i])
+    if (ripetizioni < 1) {
+        ripetizioni <- 1
+    }
+    spese.dataOra <- c(spese.dataOra, as.character(as.POSIXct(sample(dataMin:dataMax, ripetizioni))))
+    spese.condominio <- c(spese.condominio, rep(condomini.codice[i], ripetizioni))
+    i <- i + 1
 }
 
 # size: indicativamente 4500 (in media 30 spese * 150 condomini)
@@ -54,9 +50,9 @@ spese.importo <- sample(20:800, spese.size, replace=T)
 spese.causale <- sample(elencoCausali, spese.size, replace=T)
 
 spese <- data.frame(dataOra = spese.dataOra,
-		    condominio = spese.condominio,
-		    importo = spese.importo,
-		    causale = spese.causale)
+            condominio = spese.condominio,
+            importo = spese.importo,
+            causale = spese.causale)
 
 
 
@@ -72,13 +68,13 @@ appartamenti.condominio <- NULL
 
 i <- 1
 while (i <= condomini.size) {
-	ripetizioni = round(distr_normale[i])
-	if (ripetizioni < 1) {
-		ripetizioni <- 1
-	}
-	appartamenti.numero <- c(appartamenti.numero, 1:ripetizioni)
-	appartamenti.condominio <- c(appartamenti.condominio, rep(condomini.codice[i], ripetizioni))
-	i <- i + 1
+    ripetizioni = round(distr_normale[i])
+    if (ripetizioni < 1) {
+        ripetizioni <- 1
+    }
+    appartamenti.numero <- c(appartamenti.numero, 1:ripetizioni)
+    appartamenti.condominio <- c(appartamenti.condominio, rep(condomini.codice[i], ripetizioni))
+    i <- i + 1
 }
 
 # size: indicativamente 1500 (in media 10 app. * 150 condomini)
@@ -91,7 +87,7 @@ appartamenti.quotaAnnoCorrente <- sample(0:1000, appartamenti.size, replace=T)
 appartamenti.sommaPagata <- NULL
 
 for (x in appartamenti.quotaAnnoCorrente) {
-	appartamenti.sommaPagata <- c(appartamenti.sommaPagata, sample(0:x, 1))
+  appartamenti.sommaPagata <- c(appartamenti.sommaPagata, sample(0:x, 1))
 }
 
 # TODO: telefono è un campo opzionale
@@ -111,41 +107,42 @@ nomi <- readLines("nomi.txt")
 cognomi <- readLines("cognomi.txt")
 
 persone.size <- 1200
-
-# TODO: fix codice fiscale
 persone.cf <- replicate(persone.size, paste(sample(0:9, 16, replace=T), collapse=""))
 persone.nome <- paste(sample(nomi, persone.size, replace=T),
-		      sample(cognomi, persone.size, replace=T))
+                      sample(cognomi, persone.size, replace=T))
 persone.dataNascita <- as.character(as.POSIXct(sample(dataMin:dataMax, persone.size, replace=T)))
+
+
+
 
 # assegno abitazione
 indici <- sample.int(appartamenti.size, persone.size)
 persone.appartamento <- appartamenti.numero[indici]
 persone.condominio <- appartamenti.condominio[indici]
 
-persone = data.frame(cf = persone.cf,
-		     nome = persone.nome,
-		     dataNascita = persone.dataNascita,
-		     numeroAppartamento = persone.appartamento,
-		     condominio = persone.condominio)
+persone <- data.frame(cf = persone.cf,
+                      nome = persone.nome,
+                      dataNascita = persone.dataNascita,
+                      numeroAppartamento = persone.appartamento,
+                      condominio = persone.condominio)
 
 
 
 
 # assegno proprietario
-proprietari = sample(persone.cf, 200)
-appartamenti.proprietario = sample(proprietari, appartamenti.size, replace=T) # TODO: solo 200 proprietari
+proprietari <- sample(persone.cf, 200)
+appartamenti.proprietario <- sample(proprietari, appartamenti.size, replace = TRUE)
 
 appartamenti <- data.frame(numero = appartamenti.numero,
-			   condominio = appartamenti.condominio,
-			   quotaAnnoCorrente = appartamenti.quotaAnnoCorrente,
-			   sommaPagata = appartamenti.sommaPagata,
-			   telefono = appartamenti.telefono,
-			   superficie = appartamenti.superficie,
-			   proprietario = appartamenti.proprietario)
+                           condominio = appartamenti.condominio,
+                           quotaAnnoCorrente = appartamenti.quotaAnnoCorrente,
+                           sommaPagata = appartamenti.sommaPagata,
+                           telefono = appartamenti.telefono,
+                           superficie = appartamenti.superficie,
+                           proprietario = appartamenti.proprietario)
 
 
-db <- dbConnect(RPostgreSQL::PostgreSQL(), dbname="basi28", user="basi28")
+db <- dbConnect(RPostgreSQL::PostgreSQL(), dbname = "basi28", user = "basi28")
 
 # previene creazione tabelle
 stopifnot(dbExistsTable(db, "condominio"))
@@ -155,10 +152,10 @@ stopifnot(dbExistsTable(db, "persona"))
 
 stopifnot(dbBegin(db))
 
-x = dbExecute(db, 'DELETE FROM persona')
-x = dbExecute(db, 'DELETE FROM appartamento')
-x = dbExecute(db, 'DELETE FROM spesa')
-x = dbExecute(db, 'DELETE FROM condominio')
+x <- dbExecute(db, 'DELETE FROM persona')
+x <- dbExecute(db, 'DELETE FROM appartamento')
+x <- dbExecute(db, 'DELETE FROM spesa')
+x <- dbExecute(db, 'DELETE FROM condominio')
 
 stopifnot(dbWriteTable(db, "condominio", condomini, append=T, row.names=F))
 stopifnot(dbWriteTable(db, "spesa", spese, append=T, row.names=F))

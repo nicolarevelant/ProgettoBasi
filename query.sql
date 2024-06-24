@@ -37,7 +37,7 @@ SELECT SUM(importo)
 FROM   (condominio C JOIN spesa S ON C.codice = S.condominio)
 WHERE  "ammontareComplessivo" BETWEEN 50 AND 100;
 
--- Query 4 insieme vuoto TODO
+-- Query 4
 
 SELECT cf
 FROM   persona P
@@ -47,7 +47,7 @@ WHERE  EXISTS  (SELECT *
                        P.condominio = condominio AND
                        P.cf = proprietario);
 
--- variante 2 insieme vuoto TODO
+-- variante 2
 
 SELECT cf
 FROM   (persona P JOIN appartamento A ON P.cf = A.proprietario)

@@ -15,7 +15,7 @@ appSuperQuota <- dbGetQuery(db, "SELECT superficie, \"quotaAnnoCorrente\" FROM a
 condomini <- dbGetQuery(db, "SELECT codice FROM condominio ORDER BY codice")$codice
 
 appSuper <- dbGetQuery(db, paste("SELECT superficie FROM appartamento WHERE condominio =", sample(condomini, 1), "ORDER BY numero"))
-#appSuper2 <- dbGetQuery(db, "SELECT superficie FROM appartamento ORDER BY condominio, numero")
+
 appSpese <- dbGetQuery(db, "SELECT \"sommaPagata\" / \"quotaAnnoCorrente\" AS ratio FROM appartamento WHERE \"quotaAnnoCorrente\" > 0")
 
 appSpeseSuperficie <- dbGetQuery(db, "SELECT superficie, SUM(\"sommaPagata\") / SUM(\"quotaAnnoCorrente\") AS ratio FROM appartamento GROUP BY superficie HAVING SUM(\"quotaAnnoCorrente\") > 0 ORDER BY superficie")
@@ -105,14 +105,14 @@ plot(appSpeseSuperficie$superficie, appSpeseSuperficie$ratio * 100,
 
 # 6 variante 2: percentuale causali spese di 1 condominio (plot a torta)
 colors <- terrain.colors(length(causali$n))
-posx = barplot(causali$n, col = colors, ylim = c(0, 22),
+posx <- barplot(causali$n, col = colors, ylim = c(0, 22),
         main = "Percentuale causali spese di 1 condominio")
 text(posx, causali$n + 1, causali$n)
 legend("topright", causali$causale, fill = colors)
 
 # 6 variante 3: percentuale causali spese
 colors <- terrain.colors(length(causali2$n))
-posx = barplot(causali2$n, col = colors, ylim = c(0, 1800),
+posx <- barplot(causali2$n, col = colors, ylim = c(0, 1800),
         main = "Percentuale causali spese")
 text(posx, causali2$n + 60, causali2$n)
 legend("topright", causali2$causale, fill = colors)
