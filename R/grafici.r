@@ -41,7 +41,7 @@ n <- ceiling(log2(len)) + 1 # metodo 1 (Sturges's formula)
 
 # -1 poiché hist() vuole il numero di breaks che è il numero di colonne +1
 hist(importi$importo, n - 1,
-     main = "Frequenza spese per fascie d'importo",
+     main = "Distribuzione spese per fascie d'importo",
      xlab = "Importo",
      ylab = "Frequenza")
 
@@ -106,13 +106,15 @@ plot(appSpeseSuperficie$superficie, appSpeseSuperficie$ratio * 100,
 # 6 variante 2: percentuale causali spese di 1 condominio (plot a torta)
 colors <- terrain.colors(length(causali$n))
 posx <- barplot(causali$n, col = colors, ylim = c(0, 22),
-        main = "Percentuale causali spese di 1 condominio")
+                main = "Distribuzione causali spese di 1 condominio",
+                ylab = "Frequenza")
 text(posx, causali$n + 1, causali$n)
 legend("topright", causali$causale, fill = colors)
 
 # 6 variante 3: percentuale causali spese
 colors <- terrain.colors(length(causali2$n))
 posx <- barplot(causali2$n, col = colors, ylim = c(0, 1800),
-        main = "Percentuale causali spese")
+                main = "Distribuzione causali spese",
+                ylab = "Frequenza")
 text(posx, causali2$n + 60, causali2$n)
 legend("topright", causali2$causale, fill = colors)
