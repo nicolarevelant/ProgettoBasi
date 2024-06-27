@@ -1,3 +1,9 @@
+-- Codice SQL per la creazione delle tabelle, e dei trigger
+-- 
+-- Alcuni campi sono racchiusi tra doppi apici poiché PostgreSQL
+-- è case-insensitive anche sul nome dei campi
+-- (a meno che non siano racchiusi tra doppi apici)
+
 DROP SCHEMA public CASCADE;
 CREATE SCHEMA public;
 
@@ -76,10 +82,10 @@ BEGIN
             WHERE C.codice = new.condominio;
             new.indirizzo = indirizzo_derivato;
         ELSE
-            new.indirizzo = 'inner';
+            new.indirizzo = NULL;
         END IF;
     ELSE
-        new.indirizzo = 'outer';
+        new.indirizzo = NULL;
     END IF;
 
     RETURN new;
