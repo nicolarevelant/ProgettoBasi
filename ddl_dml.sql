@@ -47,29 +47,42 @@ ALTER TABLE appartamento
     ADD CONSTRAINT fk_app_persona FOREIGN KEY (proprietario) REFERENCES persona(cf)
     DEFERRABLE INITIALLY DEFERRED;
 
--- indirizzo proprietario è null SSE possiede l'appartamento (numeroAppartamento, condominio), nel quale ci abita
+CREATE VIEW proprietari AS
+SELECT cf, indirizzo
+FROM persona AS P
+JOIN appartamento AS A ON P.cf = A.proprietario;
+
+-- indirizzo proprietario è null SSE possiede l'appartamento (numeroAppartamento, condominio),
+-- nel quale ci abita
 CREATE OR REPLACE FUNCTION deriva_indirizzo_persona()
 RETURNS trigger AS
 $$
 DECLARE
-    indirizzo_derivato VARCHAR(50);
+   indirizzo_derivato VARCHAR(50);
 BEGIN
-    PERFORM numero, condominio
-    FROM appartamento
-    WHERE appartamento.proprietario = new.cf
-            AND appartamento.numero = new."numeroAppartamento"
+   PERFORM cf
+   FROM proprietari
+   WHERE proprietari.cf = new.cf;
+
+   IF FOUND THEN
+
+      PERFORM numero, condominio
+      FROM appartamento
+      WHERE appartamento.numero = new."numeroAppartamento"
             AND appartamento.condominio = new.condominio;
 
-    IF FOUND THEN
-        SELECT c.indirizzo INTO indirizzo_derivato
-        FROM condominio AS c
-        WHERE c.codice = new.condominio;
+      IF NOT FOUND THEN
+         SELECT c.indirizzo INTO indirizzo_derivato
+         FROM condominio AS c
+         WHERE c.codice = new.condominio;
+         new.indirizzo = indirizzo_derivato;
 
-        new.indirizzo = indirizzo_derivato;
-    ELSE
-        new.indirizzo = NULL;
-    END IF;
-    RETURN new;
+         RETURN new;
+      END IF;
+   END IF;
+
+   new.indirizzo = NULL;
+   RETURN new;
 END;
 $$ LANGUAGE plpgsql;
 
