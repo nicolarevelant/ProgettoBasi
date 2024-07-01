@@ -90,7 +90,6 @@ for (x in appartamenti.quotaAnnoCorrente) {
   appartamenti.sommaPagata <- c(appartamenti.sommaPagata, sample(0:x, 1))
 }
 
-# TODO: telefono è un campo opzionale
 appartamenti.telefono <- replicate(appartamenti.size, paste(sample(0:9, 10, replace=T), collapse=""))
 appartamenti.superficie <- sample(40:300, appartamenti.size, replace=T)
 

@@ -87,20 +87,3 @@ INNER JOIN condominio C
 ON P.condominio = C.codice
 WHERE P.indirizzo IS NULL;
 
--- Test query semplice 2:
-
-CREATE VIEW tmpView AS (
-        SELECT P.cf, P.indirizzo
-        FROM persona P INNER JOIN appartamento A ON P.cf = A.proprietario
-        WHERE P.indirizzo IS NOT NULL
-
-        UNION
-
-        SELECT P.cf, C.indirizzo
-        FROM (persona P INNER JOIN appartamento A ON P.cf = A.proprietario)
-        INNER JOIN condominio C
-        ON P.condominio = C.codice
-        WHERE P.indirizzo IS NULL
-)
-
-SELECT * FROM tmpView ORDER BY cf;
