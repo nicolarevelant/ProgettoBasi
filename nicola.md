@@ -1,7 +1,7 @@
 # Query SQL
 
-1. Query dato x proprietario per ogni condominio avente almeno 1 app. posseduto da x, elencare le ultime 5 spese dal registro spese
-2. Query elenco spese dell'anno corrente dei condomini che possiedono almeno 10 appartamenti
+1. Query dato P proprietario per ogni condominio avente almeno 1 app. posseduto da P, elencare le ultime 5 spese dal registro spese.
+2. Query elenco spese dell'anno corrente dei condomini che possiedono almeno 10 appartamenti.
 
 ---
 
